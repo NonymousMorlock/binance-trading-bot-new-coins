@@ -1,10 +1,10 @@
 from auth.binance_auth import *
-from binance.enums import *
 
 client = load_binance_creds('auth/auth.yml')
 
+
 def get_price(coin):
-     return client.get_ticker(symbol=coin)['lastPrice']
+    return client.get_ticker(symbol=coin)['lastPrice']
 
 
 def convert_volume(coin, quantity, last_price):
@@ -13,14 +13,14 @@ def convert_volume(coin, quantity, last_price):
     try:
         info = client.get_symbol_info(coin)
         step_size = info['filters'][2]['stepSize']
-        lot_size = {coin:step_size.index('1') - 1}
+        lot_size = {coin: step_size.index('1') - 1}
 
         if lot_size[coin] < 0:
             lot_size[coin] = 0
 
     except:
         print("Ran except block for lot size")
-        lot_size = {coin:0}
+        lot_size = {coin: 0}
         pass
 
     print(lot_size[coin])
@@ -46,8 +46,8 @@ def create_order(coin, amount, action):
     Creates simple buy order and returns the order
     """
     return client.create_margin_order(
-        symbol = coin,
-        side = action,
-        type = 'MARKET',
-        quantity = amount
+        symbol=coin,
+        side=action,
+        type='MARKET',
+        quantity=amount
     )
