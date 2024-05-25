@@ -2,7 +2,7 @@ import os.path
 import threading
 import time
 from collections import defaultdict
-from datetime import datetime, time
+from datetime import datetime
 
 from new_listings_scraper import *
 from trade_client import *
@@ -233,17 +233,18 @@ def main():
                                     'price': price,
                                     'volume': volume,
                                     'time': datetime.timestamp(datetime.now()),
-                                    'tp': tp,
-                                    'sl': sl
+                                    # 'tp': tp,
+                                    # 'sl': sl
                                 }
 
                                 print('PLACING TEST ORDER')
 
                             # place a live order if False
-                            else:
+                            elif float(price) < 0.000009:
                                 order[coin['symbol']] = create_order(symbol_only + pairing, volume, 'SELL')
-                                order[coin['symbol']]['tp'] = tp
-                                order[coin['symbol']]['sl'] = sl
+                                # I don't want to sell the coin right away, I just want to buy it and hold it
+                                # order[coin['symbol']]['tp'] = tp
+                                # order[coin['symbol']]['sl'] = sl
 
                         except Exception as e:
                             print(e)
